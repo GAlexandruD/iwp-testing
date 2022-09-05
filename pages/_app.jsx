@@ -9,7 +9,7 @@ import "../styles/globals.css";
 function MyApp({ Component, pageProps }) {
   return (
     <Provider store={store}>
-      <ThemeProvider attribute="class">
+      <ThemeProvider attribute="class" defaultTheme="system">
         <PersistGate loading={null} persistor={persistor}>
           <Layout>
             <Component {...pageProps} />

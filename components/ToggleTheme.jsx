@@ -13,17 +13,15 @@ const ToggleTheme = () => {
 
   if (!mounted) return null;
   return (
-    <>
-      <button
-        onClick={(e) => {
-          e.preventDefault();
-          theme === "light" ? setTheme("dark") : setTheme("light");
-        }}
-        className="cursor-pointer m-2 text-lg "
-      >
-        {theme === "light" ? "🌞" : "🌙"}
-      </button>
-    </>
+    <button
+      onClick={(e) => {
+        e.preventDefault();
+        theme === "dark" ? setTheme("light") : setTheme("dark");
+      }}
+      className="cursor-pointer m-2 text-lg "
+    >
+      {theme === "dark" ? "🌙" : "🌞"}
+    </button>
   );
 };
 
