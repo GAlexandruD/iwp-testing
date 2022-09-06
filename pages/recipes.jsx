@@ -56,7 +56,7 @@ const Recipes = () => {
   };
 
   return (
-    <div className="flex flex-col justify-center items-center py-2 bg-gradient-to-b from-gray-900 to-gray-800">
+    <div className="flex flex-col justify-center items-center py-2 ">
       <h2 className="text-lg font-semibold text-gray-700 dark:text-white">
         <Link href="/">I Want Please</Link>
       </h2>

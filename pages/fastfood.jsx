@@ -70,7 +70,7 @@ const Fastfood = (props) => {
   };
 
   return (
-    <div className="relative flex flex-col items-center dark:bg-gradient-to-b from-gray-900 to-gray-800">
+    <div className="relative flex flex-col items-center">
       <button
         onClick={getLocation}
         className="bg-sky-600 hover:bg-sky-800 text-white font-bold py-2 px-4 rounded my-8 w-60"

@@ -10,14 +10,8 @@ import {
   setNearby,
 } from "../redux/slices/fastfoodSlice";
 
-import { fetchFastFoodStores } from "../lib/foursquare";
-
 export default function Home() {
   const dispatch = useDispatch();
-
-  useEffect(() => {
-    fetchFastFoodStores();
-  }, []);
 
   // Reset redux store to initial values.
   useEffect(() => {
@@ -29,7 +23,7 @@ export default function Home() {
   }, []);
 
   return (
-    <section className="bg-white dark:bg-gradient-to-b from-gray-900 to-gray-800">
+    <section className="">
       <div className="container px-6 py-10 mx-auto">
         <div className="lg:flex lg:items-center">
           <div className="w-full space-y-12 lg:w-1/2 ">

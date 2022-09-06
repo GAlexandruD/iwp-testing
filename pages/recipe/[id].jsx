@@ -5,6 +5,7 @@ import { fetchRecipeDetails } from "../../lib/spoonacular";
 import Tooltip from "../../components/Tooltip";
 import parse from "html-react-parser";
 import { Children } from "react";
+import TalkButton from "../../components/TalkButton";
 
 export async function getStaticProps(staticProps) {
   // Fetch recipe store data from spoonacular api
@@ -85,6 +86,18 @@ const RecipeDetails = (initialProps) => {
             </p>
           </Tooltip>
         ))}
+        <div className="p-4">
+          <TalkButton
+            text={`Total time to make is ${
+              initialProps.recipe.preparationMinutes +
+              initialProps.recipe.cookingMinutes
+            } minutes.
+            The ingredients are: ${initialProps.recipe.extendedIngredients.map(
+              (ingredient) =>
+                `${ingredient.name} ${ingredient.amount} ${ingredient.unit}`
+            )}`}
+          />
+        </div>
       </div>
 
       <a
@@ -123,6 +136,13 @@ const RecipeDetails = (initialProps) => {
                         })
                       )}
                     </div>
+                    <div className="p-4">
+                      <TalkButton
+                        text={summary
+                          .replaceAll(/(<([^>]+)>)/gi, "")
+                          .toString()}
+                      />
+                    </div>
                   </div>
                 )
               }
@@ -136,6 +156,13 @@ const RecipeDetails = (initialProps) => {
                   <hr className="pb-1 mx-2" />
 
                   <p className="mx-2">{instructions}</p>
+                </div>
+                <div className="p-4 w-full">
+                  <TalkButton
+                    text={instructions
+                      .replaceAll(/(<([^>]+)>)/gi, "")
+                      .toString()}
+                  />
                 </div>
               </div>
             )}
