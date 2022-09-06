@@ -1,7 +1,5 @@
 import Link from "next/link";
 import { useSelector, useDispatch } from "react-redux";
-
-import { advancedSearchForRecipes } from "../lib/spoonacular";
 import { setRecipes } from "../redux/slices/recipeSlice";
 import RecipeCard from "../components/RecipeCard";
 import Tooltip from "../components/Tooltip";
@@ -55,8 +53,21 @@ const Recipes = () => {
     });
   };
 
+  const fetchRecipesFromApi = async (query, stringToSearch) => {
+    const recipes = await fetch(
+      `/api/advancedSearchForRecipesApi?query=${query}&stringToSearch=${stringToSearch}`
+    );
+    const response = await recipes.json();
+    dispatch(setRecipes(response));
+  };
+
   return (
-    <div className="flex flex-col justify-center items-center py-2 ">
+    <div className="flex flex-col justify-center items-center py-2">
+      {recipes && recipes.results.length === 0 && (
+        <h1 className="text-3xl text-red-400 p-8">
+          No results or API out of calls
+        </h1>
+      )}
       <h2 className="text-lg font-semibold text-gray-700 dark:text-white">
         <Link href="/">I Want Please</Link>
       </h2>
@@ -152,11 +163,8 @@ const Recipes = () => {
                 e.preventDefault();
                 const query = searchRef.current.value;
                 const stringToSearch = transformAdvancedSearchQuery();
-                console.log(query, stringToSearch);
-                advancedSearchForRecipes(query, stringToSearch).then((data) => {
-                  dispatch(setRecipes(data));
-                  searchRef.current.value = "";
-                });
+                fetchRecipesFromApi(query, stringToSearch);
+                searchRef.current.value = "";
                 handleReset();
               }}
               className="w-full px-8 py-2.5 leading-5 text-white transition-colors duration-300 transform bg-gray-700 rounded-md hover:bg-gray-600 focus:outline-none focus:bg-gray-600"
@@ -168,8 +176,8 @@ const Recipes = () => {
       </section>
 
       <div className="sm:grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2">
-        {recipes ? (
-          recipes.results.map((recipe, idx) => {
+        {recipes && recipes ? (
+          recipes.results?.map((recipe, idx) => {
             return <RecipeCard recipe={recipe} key={idx} />;
           })
         ) : (

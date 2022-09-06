@@ -1,3 +1,4 @@
+import React from "react";
 import { fetchFastFoodStores } from "../lib/foursquare";
 import { useState, useEffect } from "react";
 
@@ -82,7 +83,10 @@ const Fastfood = (props) => {
       } Fastfood Stores`}</h2>
       <div className="sm:grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 ">
         {stores && stores.length === 0 ? (
-          <p className="text-center">Loading...</p>
+          <p className="text-center">
+            Loading data... If it takes too long, api might be waiting for the
+            other day
+          </p>
         ) : (
           stores &&
           stores.map((store, idx) => {
