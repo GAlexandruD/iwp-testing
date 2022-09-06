@@ -1,13 +1,11 @@
-import { useState } from "react";
 import { useSpeechSynthesis } from "react-speech-kit";
 
 const TalkButton = (props) => {
-  const { speak } = useSpeechSynthesis();
+  const { speak, cancel } = useSpeechSynthesis();
 
   const handleOnClick = () => {
-    setTalking(true);
+    cancel();
     speak({ text: props.text });
-    setTalking(false);
   };
 
   return (
