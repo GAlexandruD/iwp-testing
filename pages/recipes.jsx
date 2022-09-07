@@ -4,6 +4,8 @@ import { setRecipes } from "../redux/slices/recipeSlice";
 import RecipeCard from "../components/RecipeCard";
 import Tooltip from "../components/Tooltip";
 import { useEffect, useRef, useState } from "react";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Recipes = () => {
   const recipes = useSelector((state) => state.recipes.recipes);
@@ -58,12 +60,27 @@ const Recipes = () => {
       `/api/advancedSearchForRecipesApi?query=${query}&stringToSearch=${stringToSearch}`
     );
     const response = await recipes.json();
-    dispatch(setRecipes(response));
+    if (Array.isArray(response.results)) {
+      dispatch(setRecipes(response));
+    } else {
+      toast("Couldn't find recipes. API might have run out of calls.");
+    }
   };
 
   return (
     <div className="flex flex-col justify-center items-center py-2">
-      {recipes && recipes.results.length === 0 && (
+      <ToastContainer
+        position="top-center"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
+      {recipes && recipes.results?.length === 0 && (
         <h1 className="text-3xl text-red-400 p-8">
           No results or API out of calls
         </h1>

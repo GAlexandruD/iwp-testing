@@ -9,6 +9,9 @@ import { useSelector, useDispatch } from "react-redux";
 import { setFetchedStores, setNearby } from "../redux/slices/fastfoodSlice";
 import { setLatLong } from "../redux/slices/latLongSlice";
 
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 export async function getStaticProps(context) {
   const storesByLocation = await fetchFastFoodStores(
     "40.748627838930304,-73.98528717577388",
@@ -65,13 +68,28 @@ const Fastfood = (props) => {
       `/api/getFastFoodStoresByLocation?latLong=${latLong}&limit=15`
     );
     const response = await fetchedStores.json();
-    dispatch(setFetchedStores(response));
-    dispatch(setNearby(true));
+    if (response.length === 0) {
+      toast("Couldn't find any stores. Api might have run out of calls.");
+    } else {
+      dispatch(setFetchedStores(response));
+      dispatch(setNearby(true));
+    }
     setLoading(false);
   };
 
   return (
     <div className="relative flex flex-col items-center">
+      <ToastContainer
+        position="top-center"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
       <button
         onClick={getLocation}
         className="bg-sky-600 hover:bg-sky-800 text-white font-bold py-2 px-4 rounded my-8 w-60"
@@ -81,18 +99,13 @@ const Fastfood = (props) => {
       <h2 className="text-xl">{`${
         nearby ? "Nearby" : "New York"
       } Fastfood Stores`}</h2>
-      <div className="sm:grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 ">
-        {stores && stores.length === 0 ? (
-          <p className="text-center">
-            Loading data... If it takes too long, api might be waiting for the
-            other day
-          </p>
-        ) : (
-          stores &&
-          stores.map((store, idx) => {
-            return <FastFoodCard key={idx} store={store} />;
-          })
-        )}
+      <div className="p-4 sm:grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 ">
+        {stores && stores.length === 0
+          ? null
+          : stores &&
+            stores.map((store, idx) => {
+              return <FastFoodCard key={idx} store={store} />;
+            })}
       </div>
     </div>
   );

@@ -2,7 +2,6 @@ import Image from "next/image";
 import Link from "next/link";
 
 const RecipeCard = ({ recipe }) => {
-  console.log({ recipe });
   return (
     <Link href={`/recipe/${recipe.id}`}>
       <div
