@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   value: null,
+  tryingToLogin: false,
 };
 
 export const userSlice = createSlice({
@@ -11,9 +12,12 @@ export const userSlice = createSlice({
     setUserGlobal: (state, action) => {
       state.value = action.payload;
     },
+    setTryingToLogin: (state, action) => {
+      state.tryingToLogin = action.payload;
+    },
   },
 });
 
-export const { setUserGlobal } = userSlice.actions;
+export const { setUserGlobal, setTryingToLogin } = userSlice.actions;
 
 export default userSlice.reducer;

@@ -21,7 +21,7 @@ import userReducer from "./slices/userSlice";
 import recipeReducer from "./slices/recipeSlice";
 
 const persistConfig = {
-  key: "root",
+  key: "auth",
   version: 1,
   storage,
   stateReconciler: hardSet,
